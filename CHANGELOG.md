@@ -1,3 +1,16 @@
+# 1.0.0 (2025-11-12)
+
+
+### Bug Fixes
+
+* add package-lock.json for npm ci in GitHub Actions ([d9e1633](https://github.com/lperezperez/fonts-css/commit/d9e16338f212a7037ec98c111f020360d93067fb))
+* change package name to @lperezperez/fonts-css due to npm naming conflict ([d3b7254](https://github.com/lperezperez/fonts-css/commit/d3b7254acc84b020b59ac11d81ec3839cfe7eb00))
+
+
+### Features
+
+* automated font CSS generation (initial release) ([fd7129d](https://github.com/lperezperez/fonts-css/commit/fd7129da2ad037394d8351f1293e897857eb4919))
+
 # Changelog
 All notable changes to this project will be documented in this file.
 
