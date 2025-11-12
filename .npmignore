@@ -1,0 +1,14 @@
+# Development files
+.git/
+.gitignore
+.github/
+.vscode/
+.editorconfig
+.releaserc.json
+node_modules/
+package-lock.json
+# Assets
+Banner.svg
+Icon.svg
+# Tests and examples
+tests/

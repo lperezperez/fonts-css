@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<link href="https://fonts.googleapis.com" rel="preconnect">
+	<link crossorigin href="https://fonts.gstatic.com" rel="preconnect">
+	<link href="https://fonts.googleapis.com/css2?family=Source+Code+Pro:ital,wght@0,200..900;1,200..900&display=swap" rel="stylesheet">
+	<link href="{{cssPath}}" rel="stylesheet">
+	<meta charset="UTF-8">
+	<meta content="#808080" name="theme-color">
+	<meta content="width=device-width, initial-scale=1.0" name="viewport">
+	<style>
+		@keyframes day-night-animation {
+			from { background-color: #eee8d5 }
+			50% { background-color: #002b36 }
+			to { background-color: #eee8d5 }
+		}
+		@keyframes day-night-title-animation {
+			from { text-shadow: 0 .1rem .2rem #00000080, 0 0 .2rem #ffffff20 }
+			50% { text-shadow: 0 .1rem .2rem #00000020, 0 0 .2rem #ffffff80 }
+			to { text-shadow: 0 .1rem .2rem #00000080, 0 0 .2rem #ffffff20 }
+		}
+		@keyframes day-night-font-animation {
+			from { background-color: #fff }
+			50% { background-color: #fdf6e3 }
+			to { background-color: #fff }
+		}
+		body {
+			animation: day-night-animation 15s linear infinite;
+			background: fixed linear-gradient(#93a1a180, #586e7580);
+			font-family: "{{fontFamily}}";
+			margin: 1em;
+		}
+		header {
+			animation: day-night-title-animation 15s linear infinite;
+			text-shadow: 0 .1rem .2rem #002b3680, 0 0 .2rem #fdf6e320;
+			user-select: none;
+		}
+		h1 {
+			color: #002b36;
+			font-size: 3em;
+			margin: 0;
+		}
+		.subtitle {
+			color: #073642;
+			font-size: 1.5em;
+			margin: 0 0 .5em 0;
+		}
+		div.font {
+			background: #fff;
+			border-radius: .2em .2em 0 0;
+			box-shadow: 0 .1em .2em #0004, inset 0 0 1em #0002;
+			margin: 0 auto 1em;
+			padding: 1em;
+			position: relative;
+		}
+		div.font:before,
+		div.font:after {
+			bottom: 1em;
+			box-shadow: 0 .6em .8em #0004;
+			content: "";
+			position: absolute;
+			top: .5em;
+			width: 50%;
+			z-index: -1;
+		}
+		div.font:after {
+			right: .25em;
+			transform: rotate(2deg);
+		}
+		div.font:before {
+			left: .25em;
+			transform: rotate(-2deg);
+		}
+		.name {
+			align-items: center;
+			display: flex;
+			justify-content: space-between;
+			user-select: none;
+			margin-bottom: .5em;
+		}
+		.name h2 {
+			color: #333;
+			margin: 0;
+			font-size: 1.5em;
+		}
+		.css {
+			color: #999;
+			display: flex;
+			font-family: "Source Code Pro", monospace;
+			font-size: .8em;
+			font-stretch: normal;
+			font-style: normal;
+			font-weight: 400;
+			gap: 1em;
+			cursor: pointer;
+			transition: color .3s ease-in-out;
+		}
+		.css:hover { color: #268bd2 }
+		.css.copied { color: #859900 }
+		.css .block { color: #073642 }
+		.css .block, .css i { font-weight: bold }
+		div.font {
+			animation: day-night-font-animation 15s linear infinite;
+			background: linear-gradient(#fdf6e380, #fff8);
+		}
+		.preview {
+			font-size: 2em;
+			max-width: 100%;
+			overflow: hidden;
+			text-overflow: ellipsis;
+			white-space: nowrap;
+		}
+	</style>
+	<title>{{fontFamily}} - Font Specimen</title>
+</head>
+<body>
+	<header>
+		<h1>{{fontFamily}}</h1>
+		<div class="subtitle">Font Specimen</div>
+	</header>
+	{{#each fonts}}
+	<div class="font" style="font-family:'{{this.family}}';{{#unless (eq this.weight 400)}}font-weight:{{this.weight}};{{/unless}}{{#unless (eq this.style "normal")}}font-style:{{this.style}};{{/unless}}{{#unless (eq this.stretch "normal")}}font-stretch:{{this.stretch}};{{/unless}}">
+		<div class="name">
+			<h2>{{this.name}}</h2>
+			<div class="css" onclick="copyStyle(this.parentElement.parentElement)">
+				<span class="block">CSS &#123;</span>
+				<span>font-family: <i>"{{this.family}}"</i>;</span>
+				{{#unless (eq this.stretch "normal")}}<span>font-stretch: <i>{{this.stretch}}</i>;</span>{{/unless}}
+				{{#unless (eq this.style "normal")}}<span>font-style: <i>{{this.style}}</i>;</span>{{/unless}}
+				{{#unless (eq this.weight 400)}}<span>font-weight: <i>{{this.weight}}</i>;</span>{{/unless}}
+				<span class="block">&#125;</span>
+			</div>
+		</div>
+		<div class="preview">
+			The quick brown fox jumps over the lazy dog
+		</div>
+		<div class="preview" style="font-size:1em;margin-top:.5em;">
+			ABCDEFGHIJKLMNOPQRSTUVWXYZ<br>
+			abcdefghijklmnopqrstuvwxyz<br>
+			0123456789 !@#$%^&*()
+		</div>
+	</div>
+	{{/each}}
+	<script>
+		function copyStyle(element) {
+			navigator.clipboard.writeText(element.getAttribute("style")).then(() => {
+				element.querySelector(".css").classList.add("copied");
+				setTimeout(() => element.querySelector(".css").classList.remove("copied"), 1000);
+			}).catch(e => { console.error("Cannot copy CSS to clipboard: ", e) });
+		}
+	</script>
+</body>
+</html>
