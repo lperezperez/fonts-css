@@ -1,8 +1,7 @@
 const fs = require("fs-extra");
 const path = require("path");
 const handlebars = require("handlebars");
-// Handlebars helpers
-handlebars.registerHelper("eq", (a, b) => a === b);
+handlebars.registerHelper("eq", (a, b) => a === b); // Handlebars helpers
 // Font dictionaries from SCSS
 const FONT_EXTENSIONS = { eot: "embedded-opentype", otf: "opentype", svg: "svg", ttf: "truetype", woff: "woff", woff2: "woff2" };
 const FONT_STRETCHES = { "ultra-condensed": "ultra-condensed", ultracondensed: "ultra-condensed", "extra-condensed": "extra-condensed", extracondensed: "extra-condensed", condensed: "condensed", "semi-condensed": "semi-condensed", semicondensed: "semi-condensed", normal: "normal", "semi-expanded": "semi-expanded", semiexpanded: "semi-expanded", expanded: "expanded", "extra-expanded": "extra-expanded", extraexpanded: "extra-expanded", "ultra-expanded": "ultra-expanded", ultraexpanded: "ultra-expanded" };
@@ -60,6 +59,8 @@ function parseFontProperties(filename) {
 }
 /**
  * Extract family name from filename (e.g., "RocheSans-Bold-Italic" -> "Roche Sans")
+ * @param {string} filename - Font filename without extension
+ * @returns {string} - Extracted and formatted family name
  */
 function extractFamilyFromFilename(filename) {
 	// Remove extension and split by hyphen
@@ -132,6 +133,11 @@ async function scanFonts(fontsDir) {
 }
 /**
  * Build display name for font
+ * @param {string} family - Font family name
+ * @param {string} stretch - Font stretch value
+ * @param {number} weight - Font weight value
+ * @param {string} style - Font style value
+ * @returns {string} - Formatted display name (e.g., "Arial Bold Italic")
  */
 function buildDisplayName(family, stretch, weight, style) {
 	let name = family;
@@ -145,6 +151,10 @@ function buildDisplayName(family, stretch, weight, style) {
 }
 /**
  * Generate CSS with @font-face declarations
+ * @param {Array} fonts - Array of font objects from scanFonts
+ * @param {string} outputDir - Output directory path
+ * @param {string} fontsDir - Fonts source directory path
+ * @returns {string} - Generated CSS content with @font-face rules
  */
 function generateCSS(fonts, outputDir, fontsDir) {
 	const cssLines = [];
@@ -173,6 +183,13 @@ function generateCSS(fonts, outputDir, fontsDir) {
 }
 /**
  * Generate specimen HTML for a specific font family
+ * @param {string} family - Font family name
+ * @param {Array} fonts - Array of all font objects
+ * @param {string} outputDir - Output directory path
+ * @param {string} fontsDir - Fonts source directory path
+ * @param {string} templatePath - Path to Handlebars template file
+ * @param {string} pkgVersion - Package version for footer
+ * @returns {Promise<void>}
  */
 async function generateSpecimen(family, fonts, outputDir, fontsDir, templatePath, pkgVersion) {
 	const familyFonts = fonts.filter(f => f.family === family);
@@ -186,7 +203,8 @@ async function generateSpecimen(family, fonts, outputDir, fontsDir, templatePath
 	console.log(`✓ Generated: ${path.relative(process.cwd(), outputFile)}`);
 }
 /**
- * Main function
+ * Main function - orchestrates font scanning, CSS generation, and specimen creation
+ * @returns {Promise<void>}
  */
 async function main() {
 	const args = process.argv.slice(2);
