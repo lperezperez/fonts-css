@@ -10,7 +10,7 @@
 	"keywords": ["fonts", "webfonts", "css", "font-face", "woff", "woff2", "ttf", "otf", "generator", "cli" ],
 	"license": "MIT",
 	"main": "src/generate.js",
-	"name": "fonts-css",
+	"name": "@lperezperez/fonts-css",
 	"repository": { "type": "git", "url": "https://github.com/lperezperez/fonts-css.git" },
 	"scripts": { "generate": "node src/generate.js" },
 	"version": "0.0.1"

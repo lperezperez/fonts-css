@@ -1,6 +1,6 @@
 ![Banner.svg](/Banner.svg "Roche Colors")
 
-[![npm version](https://img.shields.io/npm/v/fonts-css.svg?style=flat&logo=npm)](https://www.npmjs.com/package/fonts-css) [![npm downloads](https://img.shields.io/npm/dm/fonts-css.svg?style=flat&logo=npm)](https://www.npmjs.com/package/fonts-css) [![Node.js version](https://img.shields.io/node/v/fonts-css.svg?style=flat&logo=nodedotjs)](https://nodejs.org) [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg?style=flat&logo=opensourceinitiative&logoColor=white)](LICENSE.md) [![Contributor Covenant 2.1.0](https://img.shields.io/badge/Contributor%20Covenant-2.1.0-7d0096?logo=contributorcovenant)](https://www.contributor-covenant.org/version/2/1/)
+[![npm version](https://img.shields.io/npm/v/@lperezperez/fonts-css.svg?style=flat&logo=npm)](https://www.npmjs.com/package/@lperezperez/fonts-css) [![npm downloads](https://img.shields.io/npm/dm/@lperezperez/fonts-css.svg?style=flat&logo=npm)](https://www.npmjs.com/package/@lperezperez/fonts-css) [![Node.js version](https://img.shields.io/node/v/@lperezperez/fonts-css.svg?style=flat&logo=nodedotjs)](https://nodejs.org) [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg?style=flat&logo=opensourceinitiative&logoColor=white)](LICENSE.md) [![Contributor Covenant 2.1.0](https://img.shields.io/badge/Contributor%20Covenant-2.1.0-7d0096?logo=contributorcovenant)](https://www.contributor-covenant.org/version/2/1/)
 
 > **Automated font CSS generator**  
 > Generate CSS `@font-face` declarations and interactive HTML specimens from font files with intelligent auto-detection of font properties.
@@ -54,9 +54,9 @@ The tool intelligently groups font variants, calculates relative paths, and prod
 ### From [NPM](https://docs.npmjs.com/) (Recommended)
 ```bash
 # Install globally
-npm install -g fonts-css
+npm install -g @lperezperez/fonts-css
 # Or use with npx (no installation needed)
-npx fonts-css
+npx @lperezperez/fonts-css
 ```
 ### From Source
 ```bash
