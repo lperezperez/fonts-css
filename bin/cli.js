@@ -11,6 +11,11 @@ const FONT_WEIGHTS = { 100: 100, thin: 100, 200: 200, extralight: 200, "extra-li
 const FONT_WEIGHT_NAMES = { 100: "Thin", 200: "Extra Light", 300: "Light", 400: "Regular", 500: "Medium", 600: "Semi Bold", 700: "Bold", 800: "Extra Bold", 900: "Black" };
 const FONT_STYLES = { italic: "italic", oblique: "oblique", normal: "normal" };
 const toKebabCase = str => str.replace(/\s+/g, "-").toLowerCase();
+/**
+ * Parse font properties from filename
+ * @param {string} filename - Filename without extension (e.g., "condensed-700-italic")
+ * @returns {object} - { stretch, weight, style }
+ */
 function parseFontProperties(filename) {
 	const parts = filename.toLowerCase().split("-").map(p => p.trim()).filter(Boolean);
 	let stretch = "normal", weight = 400, style = "normal";
@@ -48,6 +53,11 @@ function parseFontProperties(filename) {
 	}
 	return { stretch, weight, style };
 }
+/**
+ * Extract family name from filename (e.g., "RocheSans-Bold-Italic" -> "Roche Sans")
+ * @param {string} filename - Font filename without extension
+ * @returns {string} - Extracted and formatted family name
+ */
 function extractFamilyFromFilename(filename) {
 	const parts = filename.split("-");
 	const keywords = [...Object.keys(FONT_WEIGHTS), ...Object.keys(FONT_STYLES), ...Object.keys(FONT_STRETCHES)];
@@ -61,6 +71,11 @@ function extractFamilyFromFilename(filename) {
 	family = family.replace(/([A-Z])/g, " $1").trim();
 	return family || filename;
 }
+/**
+ * Scan fonts directory and collect font metadata
+ * @param {string} fontsDir - Root directory containing font subdirectories or files
+ * @returns {Promise<Array>} - Array of font objects with metadata
+ */
 async function scanFonts(fontsDir) {
 	const fonts = [];
 	const entries = await fs.readdir(fontsDir, { withFileTypes: true });
@@ -104,6 +119,14 @@ async function scanFonts(fontsDir) {
 	});
 	return fonts;
 }
+/**
+ * Build display name for font
+ * @param {string} family - Font family name
+ * @param {string} stretch - Font stretch value
+ * @param {number} weight - Font weight value
+ * @param {string} style - Font style value
+ * @returns {string} - Formatted display name (e.g., "Arial Bold Italic")
+ */
 function buildDisplayName(family, stretch, weight, style) {
 	let name = family;
 	if (stretch !== "normal") name += ` ${stretch.split("-").map(w => w.charAt(0).toUpperCase() + w.slice(1)).join(" ")}`;
@@ -111,6 +134,13 @@ function buildDisplayName(family, stretch, weight, style) {
 	if (style !== "normal") name += ` ${style.charAt(0).toUpperCase() + style.slice(1)}`;
 	return name;
 }
+/**
+ * Generate CSS with @font-face declarations
+ * @param {Array} fonts - Array of font objects from scanFonts
+ * @param {string} outputDir - Output directory path
+ * @param {string} fontsDir - Fonts source directory path
+ * @returns {string} - Generated CSS content with @font-face rules
+ */
 function generateCSS(fonts, outputDir, fontsDir) {
 	const cssLines = [];
 	const grouped = {};
@@ -134,6 +164,16 @@ function generateCSS(fonts, outputDir, fontsDir) {
 	}
 	return cssLines.join("\n");
 }
+/**
+ * Generate specimen HTML for a specific font family
+ * @param {string} family - Font family name
+ * @param {Array} fonts - Array of all font objects
+ * @param {string} outputDir - Output directory path
+ * @param {string} fontsDir - Fonts source directory path
+ * @param {string} templatePath - Path to Handlebars template file
+ * @param {string} pkgVersion - Package version for footer
+ * @returns {Promise<void>}
+ */
 async function generateSpecimen(family, fonts, outputDir, fontsDir, templatePath, pkgVersion) {
 	const familyFonts = fonts.filter(f => f.family === family);
 	const relPath = path.relative(outputDir, fontsDir).replace(/\\/g, "/");
@@ -158,6 +198,10 @@ async function generateSpecimen(family, fonts, outputDir, fontsDir, templatePath
 	await fs.writeFile(outputFile, html, "utf-8");
 	console.log(`✓ Generated: ${path.relative(process.cwd(), outputFile)}`);
 }
+/**
+ * Show CLI help message with usage examples and options
+ * @returns {void}
+ */
 function showHelp() {
 	console.log(`
 fonts-css - Web Font CSS Generator
@@ -197,6 +241,10 @@ Supported Formats:
 For more information: https://github.com/lperezperez/fonts-css
 `);
 }
+/**
+ * Main CLI function - parses arguments and orchestrates font generation
+ * @returns {Promise<void>}
+ */
 async function main() {
 	const args = process.argv.slice(2);
 	
